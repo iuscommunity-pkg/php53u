@@ -1,0 +1,37 @@
+--- php-5.3.13/sapi/milter/config.m4    2012-05-08 11:22:27.000000000 +0200
++++ php-5.3.13/sapi/milter/config.m4.new    2012-05-25 10:16:54.148989054 +0200
+@@ -7,15 +7,19 @@
+ 
+ if test "$PHP_MILTER" != "no"; then
+   if test "$PHP_MILTER" = "yes"; then
+-    if test -f /usr/lib/libmilter.a ; then
++    if test -f /usr/lib/libmilter.a -o -f /usr/lib/libmilter.so ; then 
+       MILTERPATH=/usr/lib
+-    else
+-      if test -f /usr/lib/libmilter/libmilter.a ; then
+-        MILTERPATH=/usr/lib/libmilter
+-      else
++    else   
++      if test -f /usr/lib64/libmilter.a -o -f /usr/lib64/libmilter.so ; then 
++      MILTERPATH=/usr/lib64
++      else   
++        if test -f /usr/lib/libmilter/libmilter.a ; then
++          MILTERPATH=/usr/lib/libmilter
++        else     
+         AC_MSG_ERROR([Unable to find libmilter.a])
++        fi     
+       fi
+-    fi
++    fi             
+   else
+     MILTERPATH=$PHP_MILTER
+   fi
+@@ -26,7 +30,7 @@
+   PHP_SELECT_SAPI(milter, program, php_milter.c getopt.c,,'$(SAPI_MILTER_PATH)') 
+   PHP_ADD_LIBRARY_WITH_PATH(milter, $MILTERPATH,)
+   BUILD_MILTER="\$(LIBTOOL) --mode=link \$(CC) -export-dynamic \$(CFLAGS_CLEAN) \$(EXTRA_CFLAGS) \$(EXTRA_LDFLAGS) \$(LDFLAGS) \$(PHP_RPATHS) \$(PHP_GLOBAL_OBJS) \$(PHP_SAPI_OBJS) \$(EXTRA_LIBS) \$(ZEND_EXTRA_LIBS) -o \$(SAPI_MILTER_PATH)"
+-  INSTALL_IT="\$(INSTALL) -m 0755 \$(SAPI_MILTER_PATH) \$(bindir)/php-milter"
++  INSTALL_IT="@echo \"Installing PHP Milter into: \$(INSTALL_ROOT)\$(bindir)/\"; \$(INSTALL) -m 0755 \$(SAPI_MILTER_PATH) \$(INSTALL_ROOT)\$(bindir)/php-milter"
+   PHP_SUBST(SAPI_MILTER_PATH)
+   PHP_SUBST(BUILD_MILTER)
+ fi

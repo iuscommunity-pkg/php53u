@@ -1,0 +1,12 @@
+This patch resolves PHP Bug #53632 http://bugs.php.net/bug.php?id=53632
+--- php-5.3.4/Zend/zend_strtod.c.orig	2011-01-05 11:02:49.424287503 -0600
++++ php-5.3.4/Zend/zend_strtod.c	2011-01-05 11:03:04.309911358 -0600
+@@ -2035,7 +2035,7 @@
+ 	int bb2, bb5, bbe, bd2, bd5, bbbits, bs2, c, dsign,
+ 		e, e1, esign, i, j, k, nd, nd0, nf, nz, nz0, sign;
+ 	CONST char *s, *s0, *s1;
+-	double aadj, aadj1, adj;
++	volatile double aadj, aadj1, adj;
+ 	volatile _double rv, rv0;
+ 	Long L;
+ 	ULong y, z;
