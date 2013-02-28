@@ -42,6 +42,13 @@
 # Regression tests take a long time, you can skip 'em with this
 %{!?runselftest: %{expand: %%global runselftest 1}}
 
+# Provide a custom find-requires that excludes 'LIBJPEG_6.2'.
+# libjpeg-turbo which replaced libjpeg in EL 6.4 provides
+# libjpeg.so.62(LIBJPEG_6.2) where as libjpeg did not,
+# find-requires is linking against this and will break pre 6.4 users.
+%define _use_internal_dependency_generator 0
+%define __find_requires %{buildroot}%{_prefix}/lib/rpm/find-requires.php53u
+
 %if 0%{?_with_oci8}
 %global instantclient_ver 10.2.0.3
 %endif
@@ -67,6 +74,9 @@ Source4: php-fpm.conf
 Source5: php-fpm-www.conf
 Source6: php-fpm.init
 Source7: php-fpm.logrotate
+
+# Custom find-requires that excludes LIBJPEG_6.2
+Source8: find-requires
 
 # Ported from Fedora/Redhat
 # Build fixes
@@ -989,6 +999,10 @@ unset NO_INTERACTION REPORT_EXIT_STATUS MALLOC_CHECK_
 %install
 [ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
 
+# Drop in our custom find-requires for useage
+mkdir -p %{buildroot}%{_prefix}/lib/rpm/
+install -p -m 755 %{SOURCE8} %{buildroot}%{_prefix}/lib/rpm/find-requires.php53u
+
 %if 0%{?_with_fpm}
 # Install the php-fpm binary
 make -C build-fpm install-fpm INSTALL_ROOT=%{buildroot}
@@ -1170,6 +1184,7 @@ fi
 %dir %{_libdir}/php
 %dir %{_libdir}/php/modules
 %dir %{_localstatedir}/lib/php
+%{_prefix}/lib/rpm/find-requires.php53u
 
 %files cli
 %defattr(-,root,root)
@@ -1268,6 +1283,13 @@ fi
 
 
 %changelog
+* Thu Feb 28 2013 Jeffrey Ness <jeffrey.ness@rackspace.com> - 5.3.22-2.ius
+- Provide a custom find-requires that excludes 'LIBJPEG_6.2'.
+- libjpeg-turbo which replaced libjpeg in EL 6.4 provides
+  libjpeg.so.62(LIBJPEG_6.2) where as libjpeg did not,
+  find-requires is linking against this and will break pre 6.4 users,
+  we will exlude that link using a custom find-requires.
+
 * Fri Feb 22 2013 Ben Harper <ben.harper@rackspace.com> - 5.3.22-1.ius
 - Latest source from upstream http://www.php.net/ChangeLog-5.php#5.3.22
 
