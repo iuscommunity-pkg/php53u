@@ -92,7 +92,6 @@ done
 # --- Weak symbol versions (from glibc).
 [ -n "$mark64" ] && mark64="(64bit)"
 for f in $liblist $exelist ; do
-    echo f is $f needed is $needed
     [ -r $f ] || continue
     lib64=`if file -L $f 2>/dev/null | \
 	grep "ELF 64-bit" >/dev/null; then echo "$mark64"; fi`
@@ -117,8 +116,7 @@ for f in $liblist $exelist ; do
 	    print LIBNAME "(" $4 ")'$lib64'";
 	}
     '
-done
-#done | sort -u
+done | sort -u
 
 #
 # --- Perl modules.

@@ -60,7 +60,7 @@
 Summary: The PHP HTML-embedded scripting language. (PHP: Hypertext Preprocessor)
 Name: %{name}
 Version: 5.3.22
-Release: 2.ius%{?dist}
+Release: 3.ius%{?dist}
 License: The PHP License v3.01
 Group: Development/Languages
 Vendor: IUS Community Project 
@@ -1283,6 +1283,10 @@ fi
 
 
 %changelog
+* Tue Mar 05 2013 Jeffrey Ness <jeffrey.ness@rackspace.com> - 5.3.22-3.ius
+- Left over from debugging, this was causing strange requires to be added:
+  http://packagetester.iuscommunity.org/package/26639/
+
 * Thu Feb 28 2013 Jeffrey Ness <jeffrey.ness@rackspace.com> - 5.3.22-2.ius
 - Provide a custom find-requires that excludes 'LIBJPEG_6.2'.
 - libjpeg-turbo which replaced libjpeg in EL 6.4 provides
