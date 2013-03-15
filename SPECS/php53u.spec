@@ -52,8 +52,8 @@
 
 Summary: The PHP HTML-embedded scripting language. (PHP: Hypertext Preprocessor)
 Name: %{name}
-Version: 5.3.22
-Release: 4.ius%{?dist}
+Version: 5.3.23
+Release: 1.ius%{?dist}
 License: The PHP License v3.01
 Group: Development/Languages
 Vendor: IUS Community Project 
@@ -1268,6 +1268,9 @@ fi
 
 
 %changelog
+* Fri Mar 15 2013 Ben Harper <ben.harper@rackspace.com> - 5.3.23-1.ius
+- Latest source from upstream
+
 * Thu Mar 07 2013 Jeffrey Ness <jeffrey.ness@rackspace.com> - 5.3.22-4.ius
 - Removing custom find-requires in place of building for CentOS
   in IUS Community.
