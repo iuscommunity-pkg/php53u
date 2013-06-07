@@ -52,7 +52,7 @@
 
 Summary: The PHP HTML-embedded scripting language. (PHP: Hypertext Preprocessor)
 Name: %{name}
-Version: 5.3.25
+Version: 5.3.26
 Release: 1.ius%{?dist}
 License: The PHP License v3.01
 Group: Development/Languages
@@ -1267,10 +1267,13 @@ fi
 %endif
 
 %changelog
-* Thu May 09 2013 Ben Harper <ben.harper@rackspace.com> - 5.2.25-1.ius
+* Fri Jun 07 2013 Ben Harper <ben.harper@rackspace.com> - 5.3.26-1.ius
+- Latest sources from upstream
+
+* Thu May 09 2013 Ben Harper <ben.harper@rackspace.com> - 5.3.25-1.ius
 - Latest source from upstream
 
-* Fri Apr 12 2013 Ben Harper <ben.harper@rackspace.com> - 5.2.24-1.ius
+* Fri Apr 12 2013 Ben Harper <ben.harper@rackspace.com> - 5.3.24-1.ius
 - Latest source from upstream
 	
 * Fri Mar 15 2013 Ben Harper <ben.harper@rackspace.com> - 5.3.23-1.ius
