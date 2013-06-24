@@ -53,7 +53,7 @@
 Summary: The PHP HTML-embedded scripting language. (PHP: Hypertext Preprocessor)
 Name: %{name}
 Version: 5.3.26
-Release: 1.ius%{?dist}
+Release: 2.ius%{?dist}
 License: The PHP License v3.01
 Group: Development/Languages
 Vendor: IUS Community Project 
@@ -188,6 +188,7 @@ Provides: %{name}-simplexml, %{name}-sockets, %{name}-spl, %{name}-sysvsem
 Provides: %{name}-sysvshm, %{name}-sysvmsg, %{name}-tokenizer, %{name}-wddx
 Provides: %{name}-zlib, %{name}-json, %{name}-zip
 Provides: %{name}-sqlite3
+Provides: %{name}-fileinfo
 
 # add for php
 Provides: %{real_name}-bz2, %{real_name}-calendar, %{real_name}-ctype
@@ -202,6 +203,7 @@ Provides: %{real_name}-sysvshm, %{real_name}-sysvmsg, %{real_name}-tokenizer
 Provides: %{real_name}-wddx, %{real_name}-zlib, %{real_name}-json
 Provides: %{real_name}-zip
 Provides: %{real_name}-sqlite3
+Provides: %{real_name}-fileinfo
 
 # add for packages expecting php53 from RHEL
 Provides: php53-bz2, php53-calendar, php53-ctype
@@ -1267,6 +1269,9 @@ fi
 %endif
 
 %changelog
+* Mon Jun 24 2013 Ben Harper <ben.harper@rackspace.com> - 5.3.26-2.ius
+- Adding provides for fileinfo
+
 * Fri Jun 07 2013 Ben Harper <ben.harper@rackspace.com> - 5.3.26-1.ius
 - Latest sources from upstream
 
