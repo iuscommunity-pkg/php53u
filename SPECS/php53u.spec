@@ -53,10 +53,10 @@
 Summary: The PHP HTML-embedded scripting language. (PHP: Hypertext Preprocessor)
 Name: %{name}
 Version: 5.3.27
-Release: 1.ius%{?dist}
+Release: 2.ius%{?dist}
 License: The PHP License v3.01
 Group: Development/Languages
-Vendor: IUS Community Project 
+Vendor: IUS Community Project
 URL: http://www.php.net/
 
 Source0: http://www.php.net/distributions/%{real_name}-%{version}.tar.bz2
@@ -67,6 +67,10 @@ Source4: php-fpm.conf
 Source5: php-fpm-www.conf
 Source6: php-fpm.init
 Source7: php-fpm.logrotate
+# files needed to test CVE-2013-6420
+# taken from http://git.php.net/?p=php-src.git;a=commit;h=c1224573c773b6845e83505f717fbf820fc18415
+Source8: cve-2013-6420.crt
+Source9: cve-2013-6420.phpt
 
 # Ported from Fedora/Redhat
 # Build fixes
@@ -100,6 +104,9 @@ Patch61: php-5.0.4-tests-wddx.patch
 # IUS Patches
 Patch302: php-5.3.0-oci8-lib64.patch
 #Patch316: php-5.3.4-bug53632.patch
+# patch needed for CVE-2013-6420
+# taken from http://git.php.net/?p=php-src.git;a=commit;h=c1224573c773b6845e83505f717fbf820fc18415
+Patch317: php-5.3.27-openssl.patch
 
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -708,6 +715,12 @@ Server which can operate under a threaded server processing model.
 
 %patch302 -p1 -F-1 -b .oci8-lib64
 #%patch316 -p1 -b .bug53632
+%patch317 -p1 -b .CVE-2013-6420
+
+#install tests for CVE-2013-6420
+cp %{SOURCE8} ext/openssl/tests/
+cp %{SOURCE9} ext/openssl/tests/
+
 
 # Prevent %%doc confusion over LICENSE files
 cp Zend/LICENSE Zend/ZEND_LICENSE
@@ -1269,6 +1282,9 @@ fi
 %endif
 
 %changelog
+* Wed Dec 11 2013 Ben Harper <ben.harper@rackspace.com> - 5.3.27-2.ius
+- Source8, Source9 and Patch317 add to address cve-2013-6420
+
 * Fri Jul 12 2013 Ben Harper <ben.harper@rackspace.com> - 5.3.27-1.ius
 - Latest sources from upstream
 
