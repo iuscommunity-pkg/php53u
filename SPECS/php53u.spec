@@ -52,8 +52,8 @@
 
 Summary: The PHP HTML-embedded scripting language. (PHP: Hypertext Preprocessor)
 Name: %{name}
-Version: 5.3.27
-Release: 2.ius%{?dist}
+Version: 5.3.28
+Release: 1.ius%{?dist}
 License: The PHP License v3.01
 Group: Development/Languages
 Vendor: IUS Community Project
@@ -67,10 +67,6 @@ Source4: php-fpm.conf
 Source5: php-fpm-www.conf
 Source6: php-fpm.init
 Source7: php-fpm.logrotate
-# files needed to test CVE-2013-6420
-# taken from http://git.php.net/?p=php-src.git;a=commit;h=c1224573c773b6845e83505f717fbf820fc18415
-Source8: cve-2013-6420.crt
-Source9: cve-2013-6420.phpt
 
 # Ported from Fedora/Redhat
 # Build fixes
@@ -103,10 +99,11 @@ Patch61: php-5.0.4-tests-wddx.patch
 
 # IUS Patches
 Patch302: php-5.3.0-oci8-lib64.patch
-#Patch316: php-5.3.4-bug53632.patch
-# patch needed for CVE-2013-6420
-# taken from http://git.php.net/?p=php-src.git;a=commit;h=c1224573c773b6845e83505f717fbf820fc18415
-Patch317: php-5.3.27-openssl.patch
+
+# PHP pushed updates to Zend that won't compile with --enable-maintainer-zts and
+# some options.  Patching Zend to how it was in 5.3.27.
+# see PHP bug 64503
+Patch319: zend-from-5.3.27.patch
 
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -691,6 +688,7 @@ Server which can operate under a threaded server processing model.
 
 %prep
 %setup -q -n %{real_name}-%{version} 
+%patch319 -p1 -F-1 -b .zend
 
 
 %patch1 -p1 -F-1 -b .gnusrc
@@ -715,12 +713,11 @@ Server which can operate under a threaded server processing model.
 
 %patch302 -p1 -F-1 -b .oci8-lib64
 #%patch316 -p1 -b .bug53632
-%patch317 -p1 -b .CVE-2013-6420
+#%patch318 -p1 -F-1 -b .patch
 
-#install tests for CVE-2013-6420
-cp %{SOURCE8} ext/openssl/tests/
-cp %{SOURCE9} ext/openssl/tests/
-
+#%patch303 -p1 -F-1 -b .zend
+#rm -rf Zend
+#tar xf %{SOURCE8}
 
 # Prevent %%doc confusion over LICENSE files
 cp Zend/LICENSE Zend/ZEND_LICENSE
@@ -1282,6 +1279,11 @@ fi
 %endif
 
 %changelog
+* Wed Dec 18 2013 Ben Harper <ben.harper@rackspace.com> - 5.3.27-1.ius
+- Source8, Source9 and Patch317 removed as issue got patched upsteam
+- add Patch318 to fix Zend change causing compile to fail with --enable-maintainer-zts
+  and other options.  Se php bug 64503
+
 * Wed Dec 11 2013 Ben Harper <ben.harper@rackspace.com> - 5.3.27-2.ius
 - Source8, Source9 and Patch317 add to address cve-2013-6420
 
