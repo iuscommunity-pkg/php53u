@@ -105,6 +105,8 @@ Patch302: php-5.3.0-oci8-lib64.patch
 # see PHP bug 64503
 Patch319: zend-from-5.3.27.patch
 
+# Patch for CVE-2014-0185
+Patch320: php-5.3.28-fpm.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -689,6 +691,7 @@ Server which can operate under a threaded server processing model.
 %prep
 %setup -q -n %{real_name}-%{version} 
 %patch319 -p1 -F-1 -b .zend
+%patch320 -p1 -F-1 -b .fpm
 
 
 %patch1 -p1 -F-1 -b .gnusrc
@@ -1279,6 +1282,9 @@ fi
 %endif
 
 %changelog
+* Mon May 05 2014 Ben Harper <ben.harper@rackspace.com> - 5.3.27-3.ius
+- added Patch320 for CVE-2014-0185 base on patch from PHP bug #67060
+
 * Wed Mar 05 2014 Ben Harper <ben.harper@rackspace.com> - 5.3.27-2.ius
 - rebuilt with updated gnutls as it is installed as a part of the build process
   Red Hat issued the following Security Advisories:
