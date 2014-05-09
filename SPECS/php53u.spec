@@ -53,7 +53,7 @@
 Summary: The PHP HTML-embedded scripting language. (PHP: Hypertext Preprocessor)
 Name: %{name}
 Version: 5.3.28
-Release: 3.ius%{?dist}
+Release: 4.ius%{?dist}
 License: The PHP License v3.01
 Group: Development/Languages
 Vendor: IUS Community Project
@@ -1282,6 +1282,9 @@ fi
 %endif
 
 %changelog
+* Fri May 09 2014 Ben Harper <ben.harper@rackspace.com> - 5.3.28-4.ius
+- update php-fpm-www.conf
+
 * Mon May 05 2014 Ben Harper <ben.harper@rackspace.com> - 5.3.28-3.ius
 - added Patch320 for CVE-2014-0185 base on patch from PHP bug #67060
 
