@@ -53,7 +53,7 @@
 Summary: The PHP HTML-embedded scripting language. (PHP: Hypertext Preprocessor)
 Name: %{name}
 Version: 5.3.28
-Release: 4.ius%{?dist}
+Release: 5.ius%{?dist}
 License: The PHP License v3.01
 Group: Development/Languages
 Vendor: IUS Community Project
@@ -1282,6 +1282,11 @@ fi
 %endif
 
 %changelog
+* Wed Jun 04 2014 Ben Harper <ben.harper@rackspace.com> - 5.3.28-5.ius
+- rebuilt with updated gnutls as it is installed as a part of the build process
+  Red Hat issued the following Security Advisory:
+  https://rhn.redhat.com/errata/RHSA-2014-0595.html
+
 * Fri May 09 2014 Ben Harper <ben.harper@rackspace.com> - 5.3.28-4.ius
 - update php-fpm-www.conf
 
