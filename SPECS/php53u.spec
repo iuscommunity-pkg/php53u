@@ -52,8 +52,8 @@
 
 Summary: The PHP HTML-embedded scripting language. (PHP: Hypertext Preprocessor)
 Name: %{name}
-Version: 5.3.28
-Release: 5.ius%{?dist}
+Version: 5.3.29
+Release: 1.ius%{?dist}
 License: The PHP License v3.01
 Group: Development/Languages
 Vendor: IUS Community Project
@@ -100,13 +100,15 @@ Patch61: php-5.0.4-tests-wddx.patch
 # IUS Patches
 Patch302: php-5.3.0-oci8-lib64.patch
 
+# The following patch got fixed upstream
 # PHP pushed updates to Zend that won't compile with --enable-maintainer-zts and
 # some options.  Patching Zend to how it was in 5.3.27.
 # see PHP bug 64503
-Patch319: zend-from-5.3.27.patch
+#Patch319: zend-from-5.3.27.patch
 
+# The following have been patched upstream
 # Patch for CVE-2014-0185
-Patch320: php-5.3.28-fpm.patch
+#Patch320: php-5.3.28-fpm.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -195,6 +197,8 @@ Provides: %{name}-sysvshm, %{name}-sysvmsg, %{name}-tokenizer, %{name}-wddx
 Provides: %{name}-zlib, %{name}-json, %{name}-zip
 Provides: %{name}-sqlite3
 Provides: %{name}-fileinfo
+Provides: %{name}(language)
+Provides: %{name}-filter
 
 # add for php
 Provides: %{real_name}-bz2, %{real_name}-calendar, %{real_name}-ctype
@@ -210,6 +214,8 @@ Provides: %{real_name}-wddx, %{real_name}-zlib, %{real_name}-json
 Provides: %{real_name}-zip
 Provides: %{real_name}-sqlite3
 Provides: %{real_name}-fileinfo
+Provides: %{real_name}(language)
+Provides: %{real_name}-filter
 
 # add for packages expecting php53 from RHEL
 Provides: php53-bz2, php53-calendar, php53-ctype
@@ -224,6 +230,9 @@ Provides: php53-sysvshm, php53-sysvmsg, php53-tokenizer
 Provides: php53-wddx, php53-zlib, php53-json
 Provides: php53-zip
 Provides: php53-sqlite3
+Provides: php53(language)
+Provides: php53-filter
+
 
 Obsoletes: %{name}-pecl-zip, %{name}-pecl-json, %{name}-json, %{name}-pecl-phar, %{name}-pecl-Fileinfo
 
@@ -401,6 +410,11 @@ Provides: php53-xml = %{version}-%{release}
 Provides: %{name}-dom, %{name}-xsl, %{name}-domxml
 Provides: %{real_name}-dom, %{real_name}-xsl, %{real_name}-domxml
 Provides: php53-dom, php53-xsl, php53-domxml
+Provides: %{name}-xmlreader
+Provides: %{name}-xmlwriter
+Provides: php53-xmlwriter, php53-xmlreader
+Provides: %{real_name}-xmlreader
+Provides: %{real_name}-xmlwriter
 BuildRequires: libxslt-devel >= 1.1.11, libxml2-devel >= 2.6.16
 
 %description xml
@@ -690,8 +704,8 @@ Server which can operate under a threaded server processing model.
 
 %prep
 %setup -q -n %{real_name}-%{version} 
-%patch319 -p1 -F-1 -b .zend
-%patch320 -p1 -F-1 -b .fpm
+#%patch319 -p1 -F-1 -b .zend
+#%patch320 -p1 -F-1 -b .fpm
 
 
 %patch1 -p1 -F-1 -b .gnusrc
@@ -1282,6 +1296,11 @@ fi
 %endif
 
 %changelog
+* Thu Aug 14 2014 Ben Harper <ben.harper@rackspace.com> - 5.3.29-1.ius
+- Latest sources from upstream
+- disabled Patch319 and Patch320, fixed upstream
+- added proivdes for filter, xmlwriter and xmlreader
+
 * Wed Jun 04 2014 Ben Harper <ben.harper@rackspace.com> - 5.3.28-5.ius
 - rebuilt with updated gnutls as it is installed as a part of the build process
   Red Hat issued the following Security Advisory:
